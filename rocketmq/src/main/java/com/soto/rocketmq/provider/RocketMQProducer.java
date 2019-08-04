@@ -1,17 +1,13 @@
 package com.soto.rocketmq.provider;
 
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
-import org.apache.rocketmq.client.producer.MessageQueueSelector;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.common.message.MessageQueue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
-
-import java.util.List;
 @Service
-public class RocketMQProvider {
+public class RocketMQProducer {
     /**
      * 生产者组名
      */
@@ -39,24 +35,32 @@ public class RocketMQProvider {
              */
             producer.start();
 
-            //创建一个消息实例,包含topic  tag  和消息体
-            Message message = new Message("Topic", "push", "发送消息....".getBytes());
             StopWatch stop = new StopWatch();
             stop.start();
 
 
-            for (int i = 0; i < 10; i++) {
-                SendResult result = producer.send(message, new MessageQueueSelector() {
-                    @Override
-                    public MessageQueue select(List<MessageQueue> mqs, Message msg, Object arg) {
-                        Integer id = (Integer) arg;
-                        int index = id % mqs.size();
-                        return mqs.get(index);
-                    }
+            for (int i = 0; i < 5; i++) {
+                //创建一个消息实例,包含topic  tag  和消息体
+                Message message = new Message("test_quick_topic",
+                        "TagA",  //标签
+                        "key"+i,  //用户自定义的key,唯一标识
+                        ("发送消息...."+i).getBytes()  //消息内容实体
+                );
 
-                }, 1);
+//                SendResult result = producer.send(message, new MessageQueueSelector() {
+//                    @Override
+//                    public MessageQueue select(List<MessageQueue> mqs, Message msg, Object arg) {
+//                        Integer id = (Integer) arg;
+//                        int index = id % mqs.size();
+//                        return mqs.get(index);
+//                    }
+//
+//                }, 1);
 
-                System.out.println("发送响应:MsgId: " + result.getMsgId() + ",发送状态: " + result.getSendStatus());
+                SendResult result = producer.send(message);
+//                System.out.println("发送响应:MsgId: " + result.getMsgId() + ",发送状态: " + result.getSendStatus());
+                //
+                System.out.println("消息发出:   "+ result);
             }
             stop.stop();
 
