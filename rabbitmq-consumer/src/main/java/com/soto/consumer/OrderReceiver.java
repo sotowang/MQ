@@ -3,6 +3,7 @@ package com.soto.consumer;
 import com.alibaba.fastjson.JSONObject;
 import com.rabbitmq.client.Channel;
 import com.soto.entity.Order;
+import com.soto.utils.JsonConvertUtils;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.messaging.handler.annotation.Headers;
@@ -21,15 +22,14 @@ public class OrderReceiver {
             key = "order.*"
     ))
     @RabbitHandler
-    public void onOrderMessage(@Payload Order order,
+    public void onOrderMessage(@Payload JSONObject object,
                                @Headers Map<String, Object> headers,
                                Channel channel) throws IOException {
 
-//        System.out.println("Jorder ------------"+jOrder);
 
         System.out.println("-----------收到消息,开始消费-----------");
+        Order order = JsonConvertUtils.convertJSONToObject(object);
 
-//        Order order = JSONObject.toJavaObject(jOrder, Order.class);
         System.out.println("订单ID:  " + order.getId());
 
         Long deliverTag = (Long) headers.get(AmqpHeaders.DELIVERY_TAG);

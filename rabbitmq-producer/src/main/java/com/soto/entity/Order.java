@@ -1,8 +1,6 @@
 package com.soto.entity;
 
-import java.io.Serializable;
-
-public class Order implements Serializable  {
+public class Order  {
     private String id;
     private String name;
 
