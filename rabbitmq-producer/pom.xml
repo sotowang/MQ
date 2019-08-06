@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.soto</groupId>
-    <artifactId>rabbitmq</artifactId>
+    <artifactId>rabbitmq-producer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>rabbitmq</name>
+    <name>rabbitmq-producer</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -32,6 +32,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.53</version>
         </dependency>
     </dependencies>
 

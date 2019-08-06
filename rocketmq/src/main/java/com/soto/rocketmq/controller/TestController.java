@@ -1,6 +1,6 @@
 package com.soto.rocketmq.controller;
 
-import com.soto.rocketmq.producer.RocketMQProvider;
+import com.soto.rocketmq.producer.RocketMQProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
     @Autowired
-    RocketMQProvider rocketMQProvider;
+    RocketMQProducer rocketMQProvider;
 
     @GetMapping("/test")
     public String testMq() {
